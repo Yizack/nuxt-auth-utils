@@ -15,5 +15,10 @@ export default eventHandler(async (event) => {
 
   session.user.email = email
 
-  return setUserSession(event, session)
+  return setUserSession(event, {
+    user: {
+      email: email,
+    },
+    loggedInAt: Date.now(),
+  })
 })
