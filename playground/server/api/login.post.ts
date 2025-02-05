@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
     },
     loggedInAt: Date.now(),
   }, {
-    maxAge: remember ? 60 * 60 * 24 * 7 : undefined // if remember is true, maxAge is 7 days
+    maxAge: remember ? 60 * 60 * 24 * 7 : undefined, // if remember is true, maxAge is 7 days
   })
 
   return setResponseStatus(event, 201)
