@@ -43,7 +43,7 @@ export async function getUserSession(event: UseSessionEvent) {
 export async function setUserSession(event: H3Event, data: UserSession, config?: Partial<SessionConfig>) {
   let session = await _useSession(event, config)
 
-  if (session.data.maxAge && !config?.maxAge) {
+  if (session.data.maxAge && config?.maxAge === undefined) {
     session = await _useSession(event, {
       ...config,
       maxAge: session.data.maxAge as number,
