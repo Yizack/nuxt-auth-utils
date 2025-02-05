@@ -255,6 +255,7 @@ const providers = computed(() =>
               Sign in with
             </UButton>
           </UDropdown>
+          <UserModal />
           <UButton
             v-if="loggedIn"
             color="gray"

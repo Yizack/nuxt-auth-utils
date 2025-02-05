@@ -41,7 +41,12 @@ export async function getUserSession(event: UseSessionEvent) {
  * @see https://github.com/atinux/nuxt-auth-utils
  */
 export async function setUserSession(event: H3Event, data: UserSession, config?: Partial<SessionConfig>) {
-  const session = await _useSession(event, config)
+  data.maxAge = config?.maxAge ?? data.maxAge
+
+  const session = await _useSession(event, {
+    ...config,
+    maxAge: data.maxAge as number,
+  })
 
   await session.update(defu(data, session.data))
 

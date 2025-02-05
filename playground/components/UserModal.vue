@@ -4,15 +4,14 @@ const isOpen = ref(false)
 const { fetch, user } = useUserSession()
 const toast = useToast()
 
-async function login(event: SubmitEvent) {
+async function update(event: SubmitEvent) {
   const target = event.target as HTMLFormElement
 
-  await $fetch('/api/login', {
-    method: 'POST',
+  await $fetch('/api/user', {
+    method: 'PUT',
     body: {
       email: target.email.value,
       password: target.password.value,
-      remember: target.remember.checked,
     },
   }).then(() => {
     fetch()
@@ -20,7 +19,7 @@ async function login(event: SubmitEvent) {
 
     toast.add({
       color: 'green',
-      title: 'User logged in successfully',
+      title: 'User updated successfully',
     })
   }).catch((err) => {
     console.log(err)
@@ -35,22 +34,24 @@ async function login(event: SubmitEvent) {
 
 <template>
   <UButton
-    v-if="!user?.email"
+    v-if="user?.email"
     size="xs"
     color="gray"
     @click="isOpen = true"
   >
-    Sign in
+    Update
   </UButton>
 
   <UDashboardModal
+    v-if="user?.email"
     v-model="isOpen"
-    title="Login"
+    title="Update user"
     description="Enter your email and password"
   >
-    <form @submit.prevent="login($event)">
+    <form @submit.prevent="update($event)">
       <UFormGroup label="Email">
         <UInput
+          :model-value="user.email"
           name="email"
           type="email"
         />
@@ -61,16 +62,12 @@ async function login(event: SubmitEvent) {
           type="password"
         />
       </UFormGroup>
-      <UCheckbox
-        label="Remember me"
-        name="remember"
-      />
       <UButton
         type="submit"
         color="black"
         class="mt-2"
       >
-        Login
+        Update
       </UButton>
     </form>
   </UDashboardModal>
