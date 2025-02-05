@@ -13,8 +13,6 @@ export default eventHandler(async (event) => {
   const db = useDatabase()
   await db.sql`UPDATE users SET email = ${email}, password = ${hashedPassword} WHERE id = ${session.user.id}`
 
-  session.user.email = email
-
   return setUserSession(event, {
     user: {
       email: email,
